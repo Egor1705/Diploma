@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" type="text/css">
+<title>File Upload / Download</title>
+ <style>
+ table  {border-width : 5px;
+         font-family: arial,sans-serif }
+         .btn1 {
+          background-color: #0c8be2;
+         margin-left: 720px;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  border-radius: 8px;
+         }
+         
+   p {text-align: center;}
+ </style>
+</head>
+<body>
+  
+     <!--   <h3>List studentFiles</h3>
+<div>
+<form th:action="@{/s_f}" method="GET">
+  <tbody>
+  <tr th:each="file : ${studfiles}">
+      <td th:text="${file.fileName}"></td>
+       <td th:text="${file.fileType}"></td>
+        <td th:text="${file.downloadURL}"></td>
+      </tr>   
+  </tbody>
+   <button type="submit">show</button>
+</form> 
+</div>-->
+   
+ 
+
+
+   
+    <h3 style="text-align:center;">Мои дисциплины</h3>
+ <!--   <div>
+   <form th:action="@{/s_u}" method="GET">
+  <tbody>
+  <tr th:each="r : ${res}">
+      <td th:text="${r.fileName}"></td>
+      <td th:text="${r.downloadURL}"></td>
+      <td th:text="${r.user.username}"></td>
+    
+         
+       
+      </tr>
+  </tbody>
+    <button type="submit">show_users</button>
+</form> 
+ </div> -->
+ 
+ 
+
+
+ <!--   <form th:action="@{/add}" method="POST">
+  <p>time: <input type = "date" name="time"/></p>
+  <button type="submit">Submit</button>
+</form>-->
+ </div>
+
+<br></br>
+<div>
+ <!--  <form th:action="@{/}" method="GET">
+  
+   <table cellspacing="0">
+   <tr>
+    <th>Название</th><th>Загружено</th><th>Просрочено</th>
+   </tr>
+   
+   <tr th:each="subj : ${subjects}">  --> 
+ <!--    <td> <a th:href="@{/subject/{id}}" th:text="${subj.subjName}">element</a></td><td>51</td><td>79</td>-->
+ 
+
+ <div sec:authorize="hasRole('USER')">   
+  <form th:action="@{/}" method="GET">  
+    <div class="table-responsive" align = "center">          
+  <table class="table table-bordered">
+    <thead>
+      <tr class="success">
+        
+        <th>Название дисциплины</th>
+        <th>Сколько загружено</th>
+        <th>Просрочено</th>
+        <th>Ближайший дедлайн</th>
+      </tr>
+    </thead>
+    <tbody>
+    <tr th:each="subj : ${subjects}">
+    
+      
+       
+        <td th:text="${subj.subjName}"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+         
+    </tbody>
+  </table>
+  </div>
+    </form>
+    
+    </div>
+    
+     <!--   <tr th:text="${studFiles.length}">
+      <td th:text="${studFiles[3]}"></td>
+      </tr>-->
+      
+</form> 
+<div sec:authorize="hasRole('ADMIN')">
+<form th:action="@{/}" method="GET">  
+    <div class="table-responsive" align = "center">          
+  <table class="table table-bordered">
+    <thead>
+      <tr class="success">
+        
+        <th>Название дисциплины</th>
+        <th>Сколько загружено</th>
+        <th>Просрочено</th>
+        <th>Ближайший дедлайн</th>
+        <th>Удалить<th>
+     
+
+      </tr>
+    </thead>
+    <tbody>
+    
+   
+    <!-- <a th:href="@{/del/{id}(id=${f.dbFile.subject.id})}"
+                                              class="btn btn-primary">
+                                        <i class="fas fa-user-times ml-2"></i>
+                                    </a> -->
+       
+       <tr th:each="s : ${subjects}">
+         <td th:text="${s.subjName}"></td>
+         </tr> 
+        <tr th:each="f : ${studFiles}"> <td th:text="${f.id}"></td>
+      <!--    <td th:text="${f.id}"></td>-->
+        </td></td>
+      <td></td>
+       <!--   <td th:text="${s.dbFile.deadL}"></td>-->
+        <td> </td>
+      <td></td>                             
+      </tr>                         
+    
+      
+    <!--    <tr th:each="s : ${subjects}"> 
+       
+        <td th:text="${s.subjName}"></td>
+      
+        <td>
+                                   
+                                </td>
+        
+        <td>-->
+       
+        
+        
+				<!--  	<a href="${pageContext.request.contextPath }/product/delete/${product.id }" onclick="return confirm('Are you sure?')">Delete</a>-->
+				
+        
+      
+     
+         
+    </tbody>
+  </table>
+  </div>
+    </form>
+    
+    </div>
+    
+     <!--   <tr th:text="${studFiles.length}">
+      <td th:text="${studFiles[3]}"></td>
+      </tr>-->
+      
+
+
+
+
+
+</div>
+<br></br>
+
+
+
+<br></br>
+<div>
+ <form th:action="@{/subject}" method="post">
+             <p>Название: <input type = "text" name="subjName" /></p>
+  <button type="submit" class ="btn1">Выйти на страницу предмета</button>
+        </form>
+<!--<ul th:each="subject : ${subjects}">  
+</ul>-->
+</div>
+<br></br>
+
+ 
+
+ 
+
+
+
+
+<div sec:authorize="hasRole('ADMIN')">
+      <form th:action="@{/s_add}" method="POST">
+  <p>Название: <input type = "text" align="center" name="subjName" /></p>
+  <!--  <p>Группа: <input type = "text"  align="center"name="prefix" /></p>-->
+  <button type="submit" class="btn1">Создать дисциплину</button>
+</form>   
+ </div>
+ 
+ 
+  
+ <!--  
+ 
+ <div>List of subjects</div>
+<form method="post" action="filter">
+        <input type="text" name="filter"/>
+        <button type="submit">Find</button>
+    </form>-->
+ 
+ <!--    <div>Filter By Id</div> 
+<form method="post" action="filter_id">
+        <input type="text" name="filter"/>
+        <button type="submit">Find</button>
+    </form>    
+    
+       <div>Filter By NameOfFile</div> 
+<form method="post" action="fileName">
+        <input type="text" name="fileName"/>
+        <button type="submit">Find</button>
+    </form> 
+    
+     <div>List files</div> 
+    <form method="post" action="fileName">
+        <input type="text" name="fileName"/>
+        <button type="submit">Find</button>
+    </form> -->
+    
+    
+     
+ 
+ 
+<br></br>
+                    
+     <form th:action="@{/logout}" method="post">
+            <input type="submit"  class="btn1" value="Выход"/>
+        </form>
+                    
+ <!--  <button onclick="myFunction()">Try it</button>
+<script src="/js/main.js" ></script>-->
+
+</body>
+</html>

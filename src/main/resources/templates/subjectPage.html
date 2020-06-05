@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" type="text/css">
+<title>Insert title here</title>
+
+ <style>
+ table  {border-width : 5px;
+         font-family: arial,
+         sans-serif }
+.primary submit-btn {
+          background-color: #0c8be2;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  border-radius: 8px;
+         }
+         
+  .btn1 {
+          background-color: #0c8be2;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+   font-size: 15px;
+  border-radius: 8px;
+         }
+         
+   p {text-align: center;}
+ </style>
+
+</head>
+<body>
+ 
+<ul th:each="subject : ${subjects}"> 
+    <h1  th:text="${subject.subjName}" style="text-align:center;"></h1>
+ </ul>   
+    
+ <!--  <button onclick="myFunction()">Try it</button>-->
+<script src="/js/main.js" ></script>
+
+
+<!--  <h3>List files</h3>
+<div>
+<form th:action="@{/flist}" method="GET">
+  <tbody>
+  <tr th:each="file : ${files}">
+      <td th:text="${file.fileName}"></td>
+      </tr>   
+  </tbody>
+   <button type="submit">show</button>
+   
+</form> -->
+
+
+
+
+<!--  <h2>Список работ</h2>
+<form th:action="@{/flist}" method="GET">
+<ul th:each="file : ${filesList}">
+    <h1  th:text="${file.fileName}"></h1>
+    </ul>
+    </form>
+  
+   <table cellspacing="0">
+   <tr>
+    <th>Название</th><th>Дедлайн</th><th>Просрочено</th><th>Загружено</th>
+   </tr>
+   <tr th:each="file : ${files}">   
+    <td th:text="${file.fileName}"></td><td th:text="${file.deadl}"></td><td>79</td><td>30</td>
+   </tr>
+  
+  
+</form> -->
+
+<div sec:authorize="hasRole('ADMIN')">
+ <form id="singleUploadForm" name="singleUploadForm" action="/subject/uploadFile" method="post" enctype="multipart/form-data">
+          <input id="singleFileUploadInput" type="file" required="required" name="file" />
+        Установить Дедлайн            <input type="date" required="required" name="deadL"/>
+     
+   <!--  -->   Id_sub           <input type="number" required="required" name="subj_id"/> 
+                        <button type="submit" class="primary submit-btn">Загрузить условие задания</button>
+                    </form>
+                    <div class="upload-response">
+                        <div id="singleFileUploadError"></div>
+                        <div id="singleFileUploadSuccess"></div>
+                    </div>
+                    
+ <br></br>                   
+ </div>  
+ 
+ <div sec:authorize="hasRole('ADMIN')">
+ <h3 style="text-align:center;">Все файлы всех студентов</h3>
+ 
+ <form th:action="@{/s_u}" method="GET">  
+    <div class="table-responsive">          
+  <table class="table table-bordered" align = "center">
+    <thead>
+      <tr class="success">
+        
+        <th>Студент</th>
+        <th>Группа</th>
+        <th>Дата сдачи</th>
+        <th>Ссылка файла</th>
+      </tr>
+    </thead>
+    <tbody>
+    <tr th:each="r: ${res}">
+        <td th:text="${r.user.username}"></td>
+        <td th:text="${r.user.course}"></td>
+        <td>дата</td>
+        <td th:text="${r.downloadURL}"></td>
+      </tr>
+         
+    </tbody>
+  </table>
+  </div>
+  <button type="submit" class="btn1">Показать</button>
+    </form>
+ 
+ 
+ 
+
+<br></br>
+
+<h3 style="text-align:center;">Все файлы 2го курса 5ой группы</h3>
+
+<form th:action="@{/s_u_2Course}" method="GET">
+  <div class="table-responsive">          
+  <table class="table table-bordered" align = "center">
+    <thead>
+      <tr class="success">
+        
+        <th>Студент</th>
+        <th>Группа</th>
+        <th>Дата сдачи</th>
+        <th>Ссылка файла</th>
+      </tr>
+    </thead>
+  <tbody>
+  <tr th:each="r : ${res2}">
+  <td th:text="${r.user.username}"></td>
+   <td th:text="${r.user.course}"></td>
+      <td th:text="${r.fileName}"></td>
+      <td th:text="${r.downloadURL}"></td>
+      
+     
+     <!--  <td th:text="${r.user.?getUsername()}"></td> -->  
+      </tr>
+  </tbody>
+  </table>
+    <button type="submit" class ="btn1">Показать</button>
+</form> 
+
+<h3 style="text-align:center;">Все файлы 3го курса 5ой группы</h3>
+
+<form th:action="@{/s_u_3Course}" method="GET">
+<div class="table-responsive">          
+  <table class="table table-bordered" align = "center">
+    <thead>
+      <tr class="success">
+        
+        <th>Студент</th>
+        <th>Группа</th>
+        <th>Дата сдачи</th>
+        <th>Ссылка файла</th>
+      </tr>
+    </thead>
+  <tbody>
+  <tr th:each="r : ${res3}">
+   <td th:text="${r.user.username}"></td>
+   <td th:text="${r.user.course}"></td>
+      <td th:text="${r.fileName}"></td>
+      <td th:text="${r.downloadURL}"></td>
+     
+      
+     <!--  <td th:text="${r.user.?getUsername()}"></td> -->
+         
+       
+      </tr>
+  </tbody>
+  </table>
+    <button type="submit" class = "btn1">Показать</button>
+</form> 
+ </div>
+ 
+ 
+ <div sec:authorize="hasRole('USER')">                 
+    <form id="singleFileUploadForm" name="singleFileUploadForm" action="/uploadStudFile" method="post" enctype="multipart/form-data">
+        File to Upload  <input id="singleStudFileUploadInput" type="file" required="required" name="file" />
+     
+  <!--    Id_user           <input type="number" required="required" name="user_id"/> --> 
+     Id_task           <input type="number" required="required" name="id_task"/> 
+   <!--    Id_subj           <input type="number" required="required" name="subj_id"/>  -->
+                        <button type="submit" class="primary submit-btn">Загрузить работу</button>
+                    </form>
+                    <div class="upload-response">
+                        <div id="singleStudFileUploadError"></div>
+                        <div id="singleStudFileUploadSuccess"></div>
+                    </div>                    
+ 
+</div>
+<!--  <div sec:authorize="hasRole('ADMIN')">
+<div>List of tasks by course</div>
+<form method="post" action="filter_course">
+        <input type="text" name="filter"/>
+        <button type="submit">Find</button>
+    </form>
+</div>-->
+
+ 
+<h3 style="text-align:center;">Все Лабораторные работы</h3>
+<form th:action="@{/f}" method="GET">  
+    <div class="table-responsive">          
+  <table class="table table-bordered">
+    <thead>
+      <tr class="success">
+        
+        <th>Название Лабораторной работы</th>
+        <th>Ссылка файла</th>
+        <th>Дедлайн</th>
+      </tr>
+    </thead>
+   <tbody>
+  <tr th:each="file : ${files}">
+      <td th:text="${file.fileName}"></td>
+        <td th:text="${file.downloadURL}"></td>
+        <td th:text="${file.deadL}"></td>
+      </tr>   
+  </tbody>
+  </table>
+  </div>
+  <button type="submit" class ="btn1">Показать</button>
+    </form>
+ 
+
+
+ 
+
+</div>
+<br></br>
+<a th:href="@{/index}">Назад</a>
+
+</body>
+</html>
