@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,11 +46,15 @@ public class DBFileController {
 	private DBFileRepository dbFileRepo;
 	@Autowired
 	private SubjectRepository subjectRepo;
+	
+	
 
 	@GetMapping("/f")
-	public String list(Model model) {
+	public String list(Model model) { //id_task' cannot be found on object of type 'by.bsu.app.entity.DBFile
 		Iterable<DBFile> list = dbFileRepo.findAll();
+		
 		model.addAttribute("files", list);
+		//Subj sub = subjRepo.findById(id)
 		return "subjectPage";
 	}
 
@@ -77,24 +84,46 @@ public class DBFileController {
 	// return dbFileRepo.save(dbFile);
 	// });
 	// }
+	@GetMapping("/upload/{id}")
+	public String showUpdateForm(@PathVariable("id") long id, Model model) {
+	    Subj sub = subjectRepo.findById(id)
+	      .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
 
-	@PostMapping("/subject/uploadFile")
-	public String uploadFile(@RequestParam(value = "deadL") Date deadL, @RequestParam("subj_id") Long id,
-			@RequestParam("file") MultipartFile file, Subj subject) throws Exception {
-
+	    model.addAttribute("subject", sub);
+	    return "upload-par";
+	}
+	    
+	@PostMapping("/uploadFile/{id}")
+	public String uploadFile(@RequestParam(value = "deadL") Date deadL, Model model,
+			//@RequestParam("subj_id") Long id, 
+			@PathVariable("id") Long id,
+			@RequestParam("file") MultipartFile file, @Valid Subj subject,BindingResult result) throws Exception {
+		  subject = getSubj(id);
+		// model.addAttribute("subject", subject);
+		 if (result.hasErrors()) {
+		        subject.setId(id);
+		        return "upload-par";
+		    }
+		
+		//Iterable<Subj> subjects = subjectRepo.findAll();
+		
 		String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 		System.out.println(fileName);
 
-		subject = getSubj(id);
-
+		//subject = getSubj(id);
+		//subjectRepo.save(subject);
+		
+		// subjectRepo.save(subject);
+		
+  System.out.println("id = "+id);
 		String downloadURL = "http://localhost:8080/downloadFile/" + fileName;
-
+		 //model.addAttribute("subjects", subjects);
 		DBFile dbFile = new DBFile(fileName, file.getContentType(), file.getBytes(), deadL, downloadURL, subject);
 
 		dbFileRepo.save(dbFile);
-
+		
 		System.out.println(deadL);
-
+		// model.addAttribute("subjects",subjectRepo.findAll());
 		return "subjectPage";
 
 	}
@@ -124,6 +153,7 @@ public class DBFileController {
 	// .orElseThrow(() -> new MyFileNotFoundException("File not found with fileName
 	// "));
 	// }
+	
 	public Subj getSubj(Long id) {
 		return subjectRepo.findById(id).orElseThrow(() -> new MySubjNotFoundException("subject not found with id " +id));
 	}

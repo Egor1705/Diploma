@@ -1,5 +1,6 @@
 package by.bsu.app.controller;
 
+
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import by.bsu.app.entity.DBFile;
 import by.bsu.app.entity.DBFileStudent;
@@ -71,11 +74,15 @@ public class DBFileStudentController {
 	}
 
 	@GetMapping("/s_u_2Course")
-	public String listUsersBy2Course(Model model) {
+	public ModelAndView listUsersBy2Course(Map<String,Object> model) {
 		List<DBFileStudent> resultList = dbFileStudRepo.findStudFilesBy2Course();
-		model.addAttribute("res2", resultList);
-		return "subjectPage";
+		//model.addAttribute("res2", resultList);
+	model.put("res2", resultList);
+		model.put("dateOfComp",dateOfComp());
+		return new ModelAndView("subjectPage",model);
 	}
+	
+	
 
 	@GetMapping("/s_u_3Course")
 	public String listUsersBy3Course(Model model) {
@@ -101,9 +108,21 @@ public class DBFileStudentController {
 	//
 	// }
 
-	@PostMapping("/uploadStudFile")
-	public String uploadFile(@RequestParam("file") MultipartFile file, MyUser user,
-			@RequestParam("id_task") Long id_task, DBFile dbFile) throws Exception {
+	@GetMapping("/uploadStud/{id}/{id_task}")
+	public String showUpdateForm(@PathVariable("id") long id,@PathVariable("id_task") long id_task, Model model) {
+	    Subj sub = subjRepo.findById(id)
+	      .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+        DBFile dbfile = dbFileRepo.findById(id_task)
+        		.orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id_task));
+	    model.addAttribute("subject", sub);
+	    model.addAttribute("dbFile",dbfile);
+	    return "upload-par";
+	}
+	
+	
+	@PostMapping("/uploadStudFile/{id}/{id_task}")
+	public String uploadFile(@RequestParam("file") MultipartFile file, MyUser user,@PathVariable("id") long id,
+			@RequestParam("id_task") Long id_task, @Valid DBFile dbFile,@Valid Subj subject) throws Exception {
 
 		String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
@@ -111,7 +130,7 @@ public class DBFileStudentController {
 		String userName = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
 				.getUsername();
 		user = userRepo.findByUsername(userName);
-
+        subject = getSubj(id);
 		dbFile = getDBFile(id_task);
 		
 		DBFileStudent dbFileSt = new DBFileStudent(fileName, file.getContentType(), file.getBytes(), downloadURL, user,
@@ -126,6 +145,13 @@ public class DBFileStudentController {
 		return "subjectPage";
 
 	}
+	
+	public Date dateOfComp() {
+		return new Date();
+	}
+	
+	
+	
 
 	@GetMapping("/downloadStudFile/{fileName}")
 	public ResponseEntity<Resource> downloadFile(@PathVariable String fileName) {

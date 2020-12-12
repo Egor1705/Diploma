@@ -90,9 +90,9 @@
       <tr class="success">
         
         <th>Название дисциплины</th>
-        <th>Сколько загружено</th>
-        <th>Просрочено</th>
+        <th>Всего лабораторных</th>
         <th>Ближайший дедлайн</th>
+        <th>На страницу</th>
       </tr>
     </thead>
     <tbody>
@@ -101,12 +101,21 @@
       
        
         <td th:text="${subj.subjName}"></td>
-        <td></td>
-        <td></td>
-        <td></td>
+           <td th:text="${countLabs}"></td>
+           <td th:text="${dateSoon}"></td>   
+        <td><a th:href="@{/jump/{id}(id=${subj.id})}"
+                                              class="btn btn-primary">
+                                        <i class="fas fa-user-times ml-2"></i>Перейти
+                                    </a></td>
       </tr>
-         
+       
     </tbody>
+    <!--  <tbody>
+     <tr>
+       <td th:text="${countLabs}"></td>
+           <td th:text="${dateSoon}"></td>
+       </tr> 
+      </tbody>-->
   </table>
   </div>
     </form>
@@ -126,10 +135,8 @@
       <tr class="success">
         
         <th>Название дисциплины</th>
-        <th>Сколько загружено</th>
-        <th>Просрочено</th>
-        <th>Ближайший дедлайн</th>
-        <th>Удалить<th>
+        <th>Изменить дисциплину</th>
+        <th>Удалить дисциплину<th>
      
 
       </tr>
@@ -144,15 +151,22 @@
        
        <tr th:each="s : ${subjects}">
          <td th:text="${s.subjName}"></td>
-         </tr> 
-        <tr th:each="f : ${studFiles}"> <td th:text="${f.id}"></td>
-      <!--    <td th:text="${f.id}"></td>-->
-        </td></td>
-      <td></td>
+        <td><a th:href="@{/edit/{id}(id=${s.id})}"
+                                              class="btn btn-primary">
+                                        <i class="fas fa-user-times ml-2"></i>Изменить
+                                    </a></td>
+      <td><a th:href="@{/del/{id}(id=${s.id})}"
+                                              class="btn btn-primary">
+                                        <i class="fas fa-user-times ml-2"></i>Удалить
+                                    </a></td>
+      <td><a th:href="@{/jump/{id}(id=${s.id})}"
+                                              class="btn btn-primary">
+                                        <i class="fas fa-user-times ml-2"></i>Перейти
+                                    </a></td>                             
+       </tr> 
        <!--   <td th:text="${s.dbFile.deadL}"></td>-->
-        <td> </td>
-      <td></td>                             
-      </tr>                         
+                    
+                         
     
       
     <!--    <tr th:each="s : ${subjects}"> 
@@ -174,7 +188,33 @@
      
          
     </tbody>
+    
+     
   </table>
+  <table style="width:30%">
+  <thead>
+  <tr>
+   <th>Всего сданных работ</th>
+   <br></br>  
+     <th>Ближайший дедлайн</th>  
+    
+  </tr>            
+  
+  </thead>
+  
+  <tbody>
+  <tr>
+           <td th:text="${countTasks}"></td>
+           <td th:text="${dateSoon}"></td>
+           </tr> 
+  
+  </tbody>
+  
+  
+  
+  </table>
+  
+  
   </div>
     </form>
     

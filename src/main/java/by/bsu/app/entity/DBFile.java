@@ -38,6 +38,7 @@ public class DBFile implements Serializable {
 	@Lob
 	private byte[] data;
 	
+	
 	@Column(name = "deadL")
 	private Date deadL;
 	

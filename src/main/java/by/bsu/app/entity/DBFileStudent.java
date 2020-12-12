@@ -1,7 +1,7 @@
 package by.bsu.app.entity;
 
 import java.io.Serializable;
-import java.util.Date;
+
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
