@@ -121,7 +121,7 @@
  <br></br>                   
  </div>  
  
- <div sec:authorize="hasRole('ADMIN')">
+ <div sec:authorize="hasRole('ADMIN')"> 
  <!--  <h3 style="text-align:center;">Все файлы всех студентов</h3>
  
  <form th:action="@{/s_u}" method="GET">  
@@ -245,7 +245,7 @@
                                     </a></td>-->
   <div sec:authorize="hasRole('USER')">
   <h3 style="text-align:center;">Все Лабораторные работы</h3>
-<form th:action="@{/f}" method="GET">  
+<!--  <form th:action="@{/f}" method="GET">  -->
     <div class="table-responsive">          
   <table class="table table-bordered">
     <thead>
@@ -263,16 +263,17 @@
         <td> <a th:href="${file.downloadURL}"class="btn btn-primary">
                                         Скачать</a></td>
         <td th:text="${file.deadL}"></td>
-        <td><a th:href="@{/uploadStud/{id}(id=${file.id})/{id_task}(id_task=${file.id_task})}"
+        
+       <td><a th:href="@{/uploadStud/{id}/{id_task}(id=${file.subject_id},id_task=${file.id})}"
                                               class="btn btn-primary">
                                         <i class="fas fa-user-times ml-2"></i>Загрузить задание
-                                    </a></td>
+                                    </a></td>--> 
       </tr>   
   </tbody>
   </table>
   </div>
-  <button type="submit" class ="btn1">Показать</button>
-    </form>
+ <!--   <button type="submit" class ="btn1">Показать</button>
+    </form>-->
 </div>
   
   </div>                                  
@@ -280,7 +281,7 @@
                                     
  <div sec:authorize="hasRole('ADMIN')">
 <h3 style="text-align:center;">Все Лабораторные работы</h3>
-<form th:action="@{/f}" method="GET">  
+<!--  <form th:action="@{/f}" method="GET">  -->
     <div class="table-responsive">          
   <table class="table table-bordered">
     <thead>
@@ -301,8 +302,8 @@
   </tbody>
   </table>
   </div>
-  <button type="submit" class ="btn1">Показать</button>
-    </form>
+  <!--  <button type="submit" class ="btn1">Показать</button>
+    </form>-->
 </div>
 <br></br>
 <a th:href="@{/index}">Назад</a>

@@ -58,14 +58,14 @@ public class DBFileController {
 		return "subjectPage";
 	}
 
-	@GetMapping("/flist")
-	public String flist(Map<String, Object> model) {
-		Iterable<DBFile> list = dbFileRepo.findAll();
-		model.put("files", list);
-		Iterable<Subj> subjects = subjectRepo.findAll();
-		model.put("subjects", subjects);
-		return "subjectPage";
-	}
+//	@GetMapping("/flist")
+//	public String flist(Map<String, Object> model) {
+//		Iterable<DBFile> list = dbFileRepo.findAll();
+//		model.put("files", list);
+//		Iterable<Subj> subjects = subjectRepo.findAll();
+//		model.put("subjects", subjects);
+//		return "subjectPage";
+//	}
 
 	// @GetMapping("/files/{subject_id}/subjects")
 	// public String getDBFilesBySubject(@PathVariable(value = "postId") Long
@@ -121,7 +121,7 @@ public class DBFileController {
 		DBFile dbFile = new DBFile(fileName, file.getContentType(), file.getBytes(), deadL, downloadURL, subject);
 
 		dbFileRepo.save(dbFile);
-		
+		model.addAttribute("files",dbFileRepo.findAll());
 		System.out.println(deadL);
 		// model.addAttribute("subjects",subjectRepo.findAll());
 		return "subjectPage";

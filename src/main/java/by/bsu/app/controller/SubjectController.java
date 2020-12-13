@@ -174,10 +174,30 @@ Subj subject = getSubj(id);
 		
 		//model.addAttribute("page_title",subject.getSubjName());
 model.addAttribute("subject",subject);
+model.addAttribute("files",dbFileRepo.findAll());
 		System.out.println("the number of id " + id);
 		return "subjectPage";
 	}
 	
+	//WARNING!!!
+	@RequestMapping("/jump/{id}/{task_id}")
+	public String subjJumpStud(Model model,@PathVariable("id") Long id,@PathVariable("task_id") Long task_id) {
+		//Iterable<Subj> subjects = subjectRepository.findById(id);
+		
+Subj subject = getSubj(id);
+		DBFile dbFile = getFile(task_id);
+		//model.addAttribute("page_title",subject.getSubjName());
+model.addAttribute("subject",subject);
+model.addAttribute("file",dbFile);
+model.addAttribute("files",dbFileRepo.findAll());
+		System.out.println("the number of id " + id);
+		return "subjectPage";
+	}
+	
+	public DBFile getFile(Long fileId) {
+		return dbFileRepo.findById(fileId)
+				.orElseThrow(() -> new MyFileNotFoundException("File not found with id " + fileId));
+	}
 	
 	public Subj getSubjByName(String subjName) {
 		return subjectRepository.findBySubjName(subjName)
