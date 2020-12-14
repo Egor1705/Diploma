@@ -32,7 +32,7 @@
     
     <div sec:authorize="hasRole('USER')">
     <div align="center">
-     <form action="#" th:action="@{/uploadStudFile/{id}(id=${subject.id})/{id_task}(id_task=dbFile.id_task)}" th:object="${subject}" "${dbFile}"method="post" enctype="multipart/form-data"> 
+     <form action="#" th:action="@{/uploadStudFile/{id}(id=${file.id})}" th:object="${file}" method="post" enctype="multipart/form-data"> 
           <input id="singleFileUploadInput" type="file" required="required" name="file" />
            <button type="submit" class="primary submit-btn">Загрузить условие задания</button>
            </form>

@@ -108,21 +108,21 @@ public class DBFileStudentController {
 	//
 	// }
 
-	@GetMapping("/uploadStud/{id}/{id_task}")
-	public String showUpdateForm(@PathVariable("id") long id,@PathVariable("id_task") long id_task, Model model) {
-	    Subj sub = subjRepo.findById(id)
-	      .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
-        DBFile dbfile = dbFileRepo.findById(id_task)
-        		.orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id_task));
-	    model.addAttribute("subject", sub);
-	    model.addAttribute("dbFile",dbfile);
+	@GetMapping("/uploadStud/{id}")
+	public String showUpdateForm(@PathVariable("id") long id,/*@PathVariable("id_task") long id_task,*/ Model model) {
+	    //Subj sub = subjRepo.findById(id)
+	     // .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+        DBFile dbfile = dbFileRepo.findById(id)
+        		.orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+	   // model.addAttribute("subject", sub);
+	    model.addAttribute("file",dbfile);
 	    return "upload-par";
 	}
 	
 	
-	@PostMapping("/uploadStudFile/{id}/{id_task}")
+	@PostMapping("/uploadStudFile/{id}")
 	public String uploadFile(@RequestParam("file") MultipartFile file, MyUser user,@PathVariable("id") long id,
-			@RequestParam("id_task") Long id_task, @Valid DBFile dbFile,@Valid Subj subject) throws Exception {
+			/*@RequestParam("id_task") Long id_task,*/ @Valid DBFile dbFile,@Valid Subj subject) throws Exception {
 
 		String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
@@ -130,8 +130,8 @@ public class DBFileStudentController {
 		String userName = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
 				.getUsername();
 		user = userRepo.findByUsername(userName);
-        subject = getSubj(id);
-		dbFile = getDBFile(id_task);
+       // subject = getSubj(id);
+		dbFile = getDBFile(id);
 		
 		DBFileStudent dbFileSt = new DBFileStudent(fileName, file.getContentType(), file.getBytes(), downloadURL, user,
 				dbFile);

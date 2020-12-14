@@ -57,12 +57,13 @@ public class SubjectController {
 		List<DBFileStudent>listTasks = (List<DBFileStudent>) dbFileStudRepo.findAll();
 	//	System.out.println(list.size());
 		model.put("subjects",subjects);
+		//model.put("tasks",list);
 		//model.put("studFiles",files);
 		System.out.println(list);
 		if (list.size()!=0) {
 		model.put("dateSoon", dateSoon());
 		model.put("countLabs", countLabs());
-		
+		//model.put("countLabsPerSubj",countLabsPerSubj());
 		}
 		if(listTasks.size()!=0) {
          model.put("countTasks", countTasks());
@@ -112,6 +113,10 @@ public class SubjectController {
 	
 	public long countLabs() {
 		return dbFileRepo.countFiles();
+	}
+	
+	public List<Long> countLabsPerSubj() {
+		return dbFileRepo.countFilesPerSubj();
 	}
 	
 	public long countTasks() {
@@ -180,19 +185,19 @@ model.addAttribute("files",dbFileRepo.findAll());
 	}
 	
 	//WARNING!!!
-	@RequestMapping("/jump/{id}/{task_id}")
-	public String subjJumpStud(Model model,@PathVariable("id") Long id,@PathVariable("task_id") Long task_id) {
-		//Iterable<Subj> subjects = subjectRepository.findById(id);
-		
-Subj subject = getSubj(id);
-		DBFile dbFile = getFile(task_id);
-		//model.addAttribute("page_title",subject.getSubjName());
-model.addAttribute("subject",subject);
-model.addAttribute("file",dbFile);
-model.addAttribute("files",dbFileRepo.findAll());
-		System.out.println("the number of id " + id);
-		return "subjectPage";
-	}
+//	@RequestMapping("/jump/{id}/{task_id}")
+//	public String subjJumpStud(Model model,@PathVariable("id") Long id,@PathVariable("task_id") Long task_id) {
+//		//Iterable<Subj> subjects = subjectRepository.findById(id);
+//		
+//Subj subject = getSubj(id);
+//		DBFile dbFile = getFile(task_id);
+//		//model.addAttribute("page_title",subject.getSubjName());
+//model.addAttribute("subject",subject);
+//model.addAttribute("file",dbFile);
+//model.addAttribute("files",dbFileRepo.findAll());
+//		System.out.println("the number of id " + id);
+//		return "subjectPage";
+//	}
 	
 	public DBFile getFile(Long fileId) {
 		return dbFileRepo.findById(fileId)
