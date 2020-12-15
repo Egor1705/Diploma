@@ -32,11 +32,15 @@ public class DbInit implements CommandLineRunner {
 
 		 MyUser kirill = new MyUser("Kirill",passwordEncoder.encode("k"),"USER","2 course 5 group");
 		 MyUser maxim = new MyUser("Maxim",passwordEncoder.encode("m"),"USER","2 course 5 group");
-		 MyUser danil = new MyUser("Danil",passwordEncoder.encode("d"),"USER","3 course");
-		 MyUser artem = new MyUser("Artem",passwordEncoder.encode("a"),"ADMIN","3 course");
+		 MyUser danil = new MyUser("Danil",passwordEncoder.encode("d"),"USER","3 course 5 group");
+		 MyUser artem = new MyUser("Artem",passwordEncoder.encode("a"),"ADMIN","3 course 5 group");
+		 MyUser Kate = new MyUser("Kate",passwordEncoder.encode("k"),"USER","3 course 5 group");
+		 MyUser VITALIY = new MyUser("Vitaliy",passwordEncoder.encode("v"),"USER","3 course 5 group");
+		 MyUser Masha = new MyUser("Masha",passwordEncoder.encode("m"),"USER","3 course 5 group");
+		 MyUser Tanya = new MyUser("Tanya",passwordEncoder.encode("t"),"USER","2 course 5 group");
 	        
 
-	        List<MyUser> users = Arrays.asList(kirill,maxim,danil,artem);
+	        List<MyUser> users = Arrays.asList(kirill,maxim,danil,artem,Kate,VITALIY,Masha,Tanya);
 
 	        // Save to db
 	       this.userRepository.saveAll(users);

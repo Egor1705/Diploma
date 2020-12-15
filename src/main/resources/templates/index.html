@@ -3,6 +3,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" type="text/css">
+
+  <script th:src="@{/jquery/jquery.min.js}"></script>  
+    
+      <script th:src="@{/bootstrap/bootstrap.min.js}"></script>
+
 <title>File Upload / Download</title>
  <style>
  table  {border-width : 5px;
@@ -23,6 +28,22 @@
    p {text-align: center;}
  </style>
 </head>
+
+<script>
+   function openInfo(id){
+	   
+	   $.ajax({
+		   url: "subjInfo" + id,
+		   success: function(data) {
+			   $("modelHolder").html(data);
+			   $("Info").modal("show");
+			   
+		   }
+		   
+	   });
+   }
+</script>
+
 <body>
   
      <!--   <h3>List studentFiles</h3>
@@ -90,9 +111,9 @@
       <tr class="success">
         
         <th>Название дисциплины</th>
-        <th>Сколько загружено</th>
-        <th>Просрочено</th>
+        <th>Всего лабораторных</th>
         <th>Ближайший дедлайн</th>
+        <th>На страницу</th>
       </tr>
     </thead>
     <tbody>
@@ -101,12 +122,16 @@
       
        
         <td th:text="${subj.subjName}"></td>
-        <td></td>
-        <td></td>
-        <td></td>
+           <td th:text="${countLabs}"></td>
+           <td th:text="${dateSoon}"></td>   
+        <td><a th:href="@{/jump/{id}(id=${subj.id})}"
+                                              class="btn btn-primary">
+                                        <i class="fas fa-user-times ml-2"></i>Перейти
+                                    </a></td>
       </tr>
-         
+       
     </tbody>
+    
   </table>
   </div>
     </form>
@@ -117,7 +142,7 @@
       <td th:text="${studFiles[3]}"></td>
       </tr>-->
       
-</form> 
+<div class = "modelHolder">
 <div sec:authorize="hasRole('ADMIN')">
 <form th:action="@{/}" method="GET">  
     <div class="table-responsive" align = "center">          
@@ -126,12 +151,10 @@
       <tr class="success">
         
         <th>Название дисциплины</th>
-        <th>Сколько загружено</th>
-        <th>Просрочено</th>
-        <th>Ближайший дедлайн</th>
-        <th>Удалить<th>
-     
-
+        <th>Изменить дисциплину</th>
+        <th>Удалить дисциплину<th>
+        <th>Перейти<th>
+        <th>Узнать что-то</th>>
       </tr>
     </thead>
     <tbody>
@@ -142,17 +165,28 @@
                                         <i class="fas fa-user-times ml-2"></i>
                                     </a> -->
        
-       <tr th:each="s : ${subjects}">
+       <tr th:each="s : ${subjects}" th:onclick = "'javascript:openInfo(\'' + ${s.id} + '\');'">
          <td th:text="${s.subjName}"></td>
-         </tr> 
-        <tr th:each="f : ${studFiles}"> <td th:text="${f.id}"></td>
-      <!--    <td th:text="${f.id}"></td>-->
-        </td></td>
-      <td></td>
+        <td><a th:href="@{/edit/{id}(id=${s.id})}"
+                                              class="btn btn-primary">
+                                        <i class="fas fa-user-times ml-2"></i>Изменить
+                                    </a></td>
+      <td><a th:href="@{/del/{id}(id=${s.id})}"
+      class="btn btn-primary" >                                              
+                                        <i class="fas fa-user-times ml-2"></i>Удалить
+                                    </a></td>                                                                                                                                                                                                                                    
+      <td><a th:href="@{/jump/{id}(id=${s.id})}"
+                                              class="btn btn-primary">
+                                        <i class="fas fa-user-times ml-2"></i>Перейти
+                                    </a></td>      
+      <td><a th:href="@{/subjInfo/{id}(id=${s.id})}"
+                                              class="btn btn-primary">
+                                        <i class="fas fa-user-times ml-2"></i>Узнать
+                                    </a></td>                                                      
+       </tr> 
        <!--   <td th:text="${s.dbFile.deadL}"></td>-->
-        <td> </td>
-      <td></td>                             
-      </tr>                         
+                    
+                         
     
       
     <!--    <tr th:each="s : ${subjects}"> 
@@ -174,7 +208,37 @@
      
          
     </tbody>
+    
+     
   </table>
+  <table style="width:30%">
+  <thead>
+  <tr>
+   <th>Всего сданных работ</th>
+   <br></br>  
+     <th>Ближайший дедлайн</th>  
+    
+  </tr>            
+  
+  </thead>
+  
+  <tbody>
+  <tr>
+           <td th:text="${countTasks}"></td>
+           <td th:text="${dateSoon}"></td>
+           </tr> 
+  
+  </tbody>
+  
+  
+  
+  </table>
+  
+  
+  
+ 
+ 
+  
   </div>
     </form>
     

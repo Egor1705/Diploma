@@ -14,6 +14,7 @@ public interface SubjectRepository extends CrudRepository<Subj, Long> {
 
 	//Subj findByPrefix(String prefix);
 	Optional <Subj> findById(Long id);
+	//Subj findById(Long id);
 	
 	void deleteBySubjName(String subjName);
 	
@@ -21,4 +22,6 @@ public interface SubjectRepository extends CrudRepository<Subj, Long> {
 //	@Query("SELECT s FROM Subj s where s.subjName = :subjName")
 //	Subj findSubj();
 	Optional <Subj> findBySubjName(String subjName);
+	
+	
 }

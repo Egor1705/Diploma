@@ -14,6 +14,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import by.bsu.app.entity.MyUser;
+
 
 
 @Configuration
@@ -68,7 +70,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
                 .and()
                 .withUser("Danil").password(passwordEncoder().encode("d")).roles("USER")
                 .and()
-                .withUser("Artem").password(passwordEncoder().encode("a")).roles("ADMIN");
+                .withUser("Artem").password(passwordEncoder().encode("a")).roles("ADMIN")
+                .and()
+                .withUser("Vitaliy").password(passwordEncoder().encode("v")).roles("USER")
+                .and()
+                .withUser("Masha").password(passwordEncoder().encode("m")).roles("USER")
+                .and()
+                .withUser("Tanya").password(passwordEncoder().encode("t")).roles("USER");
+                
+                
+                
+//                MyUser Kate = new MyUser("Kate",passwordEncoder.encode("k"),"USER","3 course 5 group");
+//		 MyUser VITALIY = new MyUser("Vitaliy",passwordEncoder.encode("v"),"USER","3 course 5 group");
+//		 MyUser Masha = new MyUser("Masha",passwordEncoder.encode("m"),"USER","3 course 5 group");
+//		 MyUser Tanya = new MyUser("Tanya",passwordEncoder.encode("t"),"USER","2 course 5 group");
     }
 	
 	 @Bean

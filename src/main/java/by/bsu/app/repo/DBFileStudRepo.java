@@ -23,7 +23,7 @@ public interface DBFileStudRepo extends CrudRepository<DBFileStudent, Long> {
 	 @Query("SELECT d FROM DBFileStudent d LEFT JOIN d.user u where u.course = '2 course 5 group'")
 		List<DBFileStudent> findStudFilesBy2Course();
 	 
-	 @Query("SELECT d FROM DBFileStudent d LEFT JOIN d.user u where u.course = '3 course'")
+	 @Query("SELECT d FROM DBFileStudent d LEFT JOIN d.user u where u.course = '3 course 5 group'")
 		List<DBFileStudent> findStudFilesBy3Course();
 	
 	 @Query("SELECT COUNT(fileName) FROM DBFileStudent")

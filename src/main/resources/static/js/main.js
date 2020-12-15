@@ -20,7 +20,7 @@ function uploadSingleFile(file,deadL,subj_id) {
  //   formDesc.append("description", description);
 
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "/subject/uploadFile");
+    xhr.open("POST", "/uploadFile");
 
     xhr.onload = function() {
         console.log(xhr.responseText);
