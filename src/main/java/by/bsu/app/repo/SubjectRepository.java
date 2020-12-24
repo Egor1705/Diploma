@@ -23,5 +23,6 @@ public interface SubjectRepository extends CrudRepository<Subj, Long> {
 //	Subj findSubj();
 	Optional <Subj> findBySubjName(String subjName);
 	
-	
+//	@Query("SELECT count(distinct fileName) FROM Subj left join DBFile DBFile.id_task")
+//	Integer countSome();
 }

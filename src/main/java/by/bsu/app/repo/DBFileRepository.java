@@ -29,7 +29,9 @@ public interface DBFileRepository extends CrudRepository<DBFile, Long> {
 	 long countFiles();
 	 
 	 @Query("SELECT COUNT(*)FROM DBFile GROUP BY subject_id")
-	 List<Long> countFilesPerSubj();
+	 long[] countLabs();
 	 
+//	 @Query("SELECT COUNT(*) from DBFile LEFT JOIN Subj on subjects.subj_id=files.subject_id group by subject_id ")
+//	 List<Long> countLabs();
 	 
 }

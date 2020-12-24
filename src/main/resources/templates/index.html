@@ -2,8 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
+
+<script th:src="@{/jquery/jquery.min.js}"></script>  
+      <script th:src="@{/bootstrap/bootstrap.min.js}"></script> 
+      <script src="http://code.jquery.com/jquery-2.0.2.min.js"></script>
+      
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" type="text/css">
 <title>File Upload / Download</title>
+
  <style>
  table  {border-width : 5px;
          font-family: arial,sans-serif }
@@ -22,7 +28,50 @@
          
    p {text-align: center;}
  </style>
+ 
 </head>
+<script>
+    $(document).ready(function(){
+        //Скрыть PopUp при загрузке страницы    
+        PopUpHide();
+    });
+    //Функция отображения PopUp
+    function PopUpShow(){
+        $("#popup1").show();
+    }
+    //Функция скрытия PopUp
+    function PopUpHide(){
+        $("#popup1").hide();
+    }
+</script>
+
+<script>
+var person = {"name":"John"};
+$.ajax({
+    url:"/",
+
+    type: 'GET',
+
+    data:  person,             
+
+    dataType: "html",          
+
+    contentType: 'application/json',
+
+    mimeType: 'application/json',
+
+    success: function(data){ 
+
+        console.log(data);              
+
+        return false;     
+
+    } 
+
+});
+   }
+</script>
+
 <body>
   
      <!--   <h3>List studentFiles</h3>
@@ -132,7 +181,8 @@
         <th>Название дисциплины</th>
         <th>Изменить дисциплину</th>
         <th>Удалить дисциплину<th>
-     
+        <th>Перейти<th>
+        <th>Узнать что-то</th>
 
       </tr>
     </thead>
@@ -144,7 +194,7 @@
                                         <i class="fas fa-user-times ml-2"></i>
                                     </a> -->
        
-       <tr th:each="s : ${subjects}">
+       <tr th:each="s,iter: ${subjects}">
          <td th:text="${s.subjName}"></td>
         <td><a th:href="@{/edit/{id}(id=${s.id})}"
                                               class="btn btn-primary">
@@ -157,8 +207,33 @@
       <td><a th:href="@{/jump/{id}(id=${s.id})}"
                                               class="btn btn-primary">
                                         <i class="fas fa-user-times ml-2"></i>Перейти
-                                    </a></td>                             
+                                    </a></td> 
+                                    
+     <!--   <td th:if ="${not #lists.isEmpty(array)}" th:text="${array[__${iter.index}__]}"></td>    -->
+        <td th:if = "${not #lists.isEmpty(array) and array.length==subjects.size()}" 
+         th:text="${array[__${iter.index}__]}"></td>
+       
+
+     <!--      <td><a th:href="@{/subjInfo/{id}(id=${s.id})}"
+                                              class="btn btn-primary">s
+                                        <i class="fas fa-user-times ml-2"></i>Узнать
+                                    </a></td>    -->    
+                                    
+                    
+                                                                                   
        </tr> 
+     
+       
+   <div class="b-container">
+    Sample Text
+    <a href="javascript:PopUpShow()">Show popup</a>
+</div>
+<div class="b-popup" id="popup1">
+    <div class="b-popup-content">
+        Text in Popup
+    <a href="javascript:PopUpHide()">Hide popup</a>
+    </div>
+</div>
        <!--   <td th:text="${s.dbFile.deadL}"></td>-->
                     
                          
@@ -186,6 +261,10 @@
     
      
   </table>
+  
+  
+  
+  
   <table style="width:30%">
   <thead>
   <tr>

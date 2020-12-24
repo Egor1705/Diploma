@@ -13,6 +13,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -51,27 +52,40 @@ public class SubjectController {
 	
 	@GetMapping
 	public ModelAndView list(Map<String,Object> model) {
-		Iterable<Subj> subjects = subjectRepository.findAll();
+		List<Subj> subjects = (List<Subj>) subjectRepository.findAll(); //it was Iterable earlier
 	//	Iterable<DBFileStudent> files = dbFileStudRepo.findAll();
 		List<DBFile>list = (List<DBFile>) dbFileRepo.findAll();
 		List<DBFileStudent>listTasks = (List<DBFileStudent>) dbFileStudRepo.findAll();
 	//	System.out.println(list.size());
 		model.put("subjects",subjects);
+		
 		//model.put("tasks",list);
 		//model.put("studFiles",files);
 		System.out.println(list);
+		long array[] = countLab();
 		if (list.size()!=0) {
+			
 		model.put("dateSoon", dateSoon());
-		model.put("countLabs", countLabs());
-		//model.put("countLabsPerSubj",countLabsPerSubj());
+		model.put("array", array);
+		
+	//	model.put("countLabsPerSubj",countLabsPerSubj());
 		}
+		
+		
 		if(listTasks.size()!=0) {
          model.put("countTasks", countTasks());
 		}
 		
-		
+		for(int i = 0;i<array.length;i++) {
+			System.out.println("element "+ array[i]);
+		}
+		System.out.println("fwefwefwe");
 		
 		return new ModelAndView("index",model);
+	}
+	
+	public long[] countLab(){
+		return dbFileRepo.countLabs();
 	}
 	
 	@GetMapping("/edit/{id}")
@@ -111,13 +125,11 @@ public class SubjectController {
 //	}
 	
 	
-	public long countLabs() {
-		return dbFileRepo.countFiles();
-	}
 	
-	public List<Long> countLabsPerSubj() {
-		return dbFileRepo.countFilesPerSubj();
-	}
+	
+//	public List<Long> countLabsPerSubj() {
+//		return dbFileRepo.countFilesPerSubj();
+//	}
 	
 	public long countTasks() {
 		return dbFileStudRepo.count();
@@ -159,6 +171,17 @@ public class SubjectController {
 //		
 //		return "subjectPage";
 //	}
+	
+	@RequestMapping("/subjInfo/{id}")
+	public String showInfo(@PathVariable("id") long id, ModelMap model) {
+		Subj sub = subjectRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+		
+		model.addAttribute("s",sub.getId());
+		//model.addAttribute("subjName", sub.getSubjName());
+		return "redirect:/index";
+	}
+	
 	
 	
 	@RequestMapping("/del/{id}")

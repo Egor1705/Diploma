@@ -121,12 +121,14 @@ public class DBFileController {
 		DBFile dbFile = new DBFile(fileName, file.getContentType(), file.getBytes(), deadL, downloadURL, subject);
 
 		dbFileRepo.save(dbFile);
+		
 		model.addAttribute("files",dbFileRepo.findAll());
 		System.out.println(deadL);
 		// model.addAttribute("subjects",subjectRepo.findAll());
 		return "subjectPage";
 
 	}
+
 
 	@GetMapping("/downloadFile/{fileName}")
 	public ResponseEntity<Resource> downloadFile(@PathVariable String fileName) {
