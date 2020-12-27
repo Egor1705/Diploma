@@ -182,7 +182,8 @@ $.ajax({
         <th>Изменить дисциплину</th>
         <th>Удалить дисциплину<th>
         <th>Перейти<th>
-        <th>Узнать что-то</th>
+        <th>Кол-во лаб</th>
+        <th>Ближайший дедлайн</th>
 
       </tr>
     </thead>
@@ -212,7 +213,9 @@ $.ajax({
      <!--   <td th:if ="${not #lists.isEmpty(array)}" th:text="${array[__${iter.index}__]}"></td>    -->
         <td th:if = "${not #lists.isEmpty(array) and array.length==subjects.size()}" 
          th:text="${array[__${iter.index}__]}"></td>
-       
+      
+      <td th:if = "${not #lists.isEmpty(firstDeadLine) and firstDeadLine.length==subjects.size()}" 
+         th:text="${firstDeadLine[__${iter.index}__]}"></td> 
 
      <!--      <td><a th:href="@{/subjInfo/{id}(id=${s.id})}"
                                               class="btn btn-primary">s

@@ -1,6 +1,9 @@
 package by.bsu.app.repo;
 
 
+
+
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +34,8 @@ public interface DBFileRepository extends CrudRepository<DBFile, Long> {
 	 @Query("SELECT COUNT(*)FROM DBFile GROUP BY subject_id")
 	 long[] countLabs();
 	 
+	 @Query("Select min(deadL) From DBFile Group by subject_id")
+	 Date[] firstDeadLine();
 //	 @Query("SELECT COUNT(*) from DBFile LEFT JOIN Subj on subjects.subj_id=files.subject_id group by subject_id ")
 //	 List<Long> countLabs();
 	 

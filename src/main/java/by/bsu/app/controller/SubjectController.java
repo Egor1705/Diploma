@@ -63,10 +63,12 @@ public class SubjectController {
 		//model.put("studFiles",files);
 		System.out.println(list);
 		long array[] = countLab();
+		Date firstDeadLine[] = getFirstDeadL();
 		if (list.size()!=0) {
 			
 		model.put("dateSoon", dateSoon());
 		model.put("array", array);
+		model.put("firstDeadLine", firstDeadLine);
 		
 	//	model.put("countLabsPerSubj",countLabsPerSubj());
 		}
@@ -86,6 +88,10 @@ public class SubjectController {
 	
 	public long[] countLab(){
 		return dbFileRepo.countLabs();
+	}
+	
+	public Date[] getFirstDeadL() {
+		return dbFileRepo.firstDeadLine();
 	}
 	
 	@GetMapping("/edit/{id}")
@@ -134,6 +140,8 @@ public class SubjectController {
 	public long countTasks() {
 		return dbFileStudRepo.count();
 	}
+	
+	
 	
 	public Date dateSoon() {
 		Iterable<DBFile> list  = dbFileRepo.findAll();
