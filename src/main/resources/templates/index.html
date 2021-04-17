@@ -30,105 +30,92 @@
  </style>
  
 </head>
-<script>
-    $(document).ready(function(){
-        //Скрыть PopUp при загрузке страницы    
-        PopUpHide();
-    });
-    //Функция отображения PopUp
-    function PopUpShow(){
-        $("#popup1").show();
-    }
-    //Функция скрытия PopUp
-    function PopUpHide(){
-        $("#popup1").hide();
-    }
-</script>
-
-<script>
-var person = {"name":"John"};
-$.ajax({
-    url:"/",
-
-    type: 'GET',
-
-    data:  person,             
-
-    dataType: "html",          
-
-    contentType: 'application/json',
-
-    mimeType: 'application/json',
-
-    success: function(data){ 
-
-        console.log(data);              
-
-        return false;     
-
-    } 
-
-});
-   }
-</script>
 
 <body>
   
-     <!--   <h3>List studentFiles</h3>
-<div>
-<form th:action="@{/s_f}" method="GET">
-  <tbody>
-  <tr th:each="file : ${studfiles}">
-      <td th:text="${file.fileName}"></td>
-       <td th:text="${file.fileType}"></td>
-        <td th:text="${file.downloadURL}"></td>
-      </tr>   
-  </tbody>
-   <button type="submit">show</button>
-</form> 
-</div>-->
+   
    
  
 
 
    
     <h3 style="text-align:center;">Мои дисциплины</h3>
- <!--   <div>
-   <form th:action="@{/s_u}" method="GET">
-  <tbody>
-  <tr th:each="r : ${res}">
-      <td th:text="${r.fileName}"></td>
-      <td th:text="${r.downloadURL}"></td>
-      <td th:text="${r.user.username}"></td>
+ <div sec:authorize="hasRole('ADMIN')">
+ <form th:action="@{/}" method="GET">  
+    <div class="table-responsive" align = "center">          
+  <table class="table table-bordered">
     
-         
-       
-      </tr>
-  </tbody>
-    <button type="submit">show_users</button>
-</form> 
- </div> -->
+   <tr class="success">
+    <th>Название дисциплины</th>
+    <th>Изменить дисциплину</th>
+    <th>Удалить дисциплину</th>
+    <th>Страница предмета</th>
+  </tr>
+  <tr th:each="s,iter: ${subjects}">
+    <td th:text="${s.subjName}"></td>
+    <td><a th:href="@{/edit/{id}(id=${s.id})}"
+                                              class="btn btn-primary">
+                                        <i class="fas fa-user-times ml-2"></i>Изменить
+                                    </a></td>
+    <td><a th:href="@{/del/{id}(id=${s.id})}"
+                                              class="btn btn-primary">
+                                        <i class="fas fa-user-times ml-2"></i>Удалить
+                                    </a></td>
+    <td><a th:href="@{/jump/{id}(id=${s.id})}"
+                                              class="btn btn-primary">
+                                        <i class="fas fa-user-times ml-2"></i>Перейти
+                                    </a></td>
+  </tr>
  
- 
-
-
- <!--   <form th:action="@{/add}" method="POST">
-  <p>time: <input type = "date" name="time"/></p>
-  <button type="submit">Submit</button>
-</form>-->
+</table>
  </div>
+ </form>
+ </div>
+ 
+ <!--  <div sec:authorize="hasRole('ADMIN')">
+<form th:action="@{/}" method="GET">  
+    <div class="table-responsive" align = "center">          
+  <table class="table table-bordered">
+    
+      <tr class="success">
+        
+        <th>Название</th>
+        <th>Изменить</th>
+        <th>Удалить<th>
+        <th>Перейти<th>
+      </tr>
+      <tr>
+        <td>erger</td>
+        <td>wefew</td>
+        <td>wergre</td>
+        <td>ergreg</td>   -->
+                                    
+     
+      <!--    <td th:if = "${not #lists.isEmpty(array) and array.length==subjects.size()}" 
+         th:text="${array[__${iter.index}__]}"></td>
+      
+      <td th:if = "${not #lists.isEmpty(firstDeadLine) and firstDeadLine.length==subjects.size()}" 
+         th:text="${firstDeadLine[__${iter.index}__]}"></td> 
 
-<br></br>
-<div>
- <!--  <form th:action="@{/}" method="GET">
-  
-   <table cellspacing="0">
-   <tr>
-    <th>Название</th><th>Загружено</th><th>Просрочено</th>
-   </tr>
-   
-   <tr th:each="subj : ${subjects}">  --> 
- <!--    <td> <a th:href="@{/subject/{id}}" th:text="${subj.subjName}">element</a></td><td>51</td><td>79</td>-->
+    -->
+<!--       </tr>                               
+                   
+                                                                                         
+  </table>
+ 
+  </div>
+    </form>  
+    </div>
+ -->
+ 
+ 
+
+
+
+ 
+
+
+ 
  
 
  <div sec:authorize="hasRole('USER')">   
@@ -162,156 +149,9 @@ $.ajax({
     
   </table>
   </div>
-    </form>
-    
+    </form>  
     </div>
     
-     <!--   <tr th:text="${studFiles.length}">
-      <td th:text="${studFiles[3]}"></td>
-      </tr>-->
-      
-
-<div sec:authorize="hasRole('ADMIN')">
-<form th:action="@{/}" method="GET">  
-    <div class="table-responsive" align = "center">          
-  <table class="table table-bordered">
-    <thead>
-      <tr class="success">
-        
-        <th>Название дисциплины</th>
-        <th>Изменить дисциплину</th>
-        <th>Удалить дисциплину<th>
-        <th>Перейти<th>
-        <th>Кол-во лаб</th>
-        <th>Ближайший дедлайн</th>
-
-      </tr>
-    </thead>
-    <tbody>
-    
-   
-    <!-- <a th:href="@{/del/{id}(id=${f.dbFile.subject.id})}"
-                                              class="btn btn-primary">
-                                        <i class="fas fa-user-times ml-2"></i>
-                                    </a> -->
-       
-       <tr th:each="s,iter: ${subjects}">
-         <td th:text="${s.subjName}"></td>
-        <td><a th:href="@{/edit/{id}(id=${s.id})}"
-                                              class="btn btn-primary">
-                                        <i class="fas fa-user-times ml-2"></i>Изменить
-                                    </a></td>
-      <td><a th:href="@{/del/{id}(id=${s.id})}"
-                                              class="btn btn-primary">
-                                        <i class="fas fa-user-times ml-2"></i>Удалить
-                                    </a></td>
-      <td><a th:href="@{/jump/{id}(id=${s.id})}"
-                                              class="btn btn-primary">
-                                        <i class="fas fa-user-times ml-2"></i>Перейти
-                                    </a></td> 
-                                    
-     <!--   <td th:if ="${not #lists.isEmpty(array)}" th:text="${array[__${iter.index}__]}"></td>    -->
-        <td th:if = "${not #lists.isEmpty(array) and array.length==subjects.size()}" 
-         th:text="${array[__${iter.index}__]}"></td>
-      
-      <td th:if = "${not #lists.isEmpty(firstDeadLine) and firstDeadLine.length==subjects.size()}" 
-         th:text="${firstDeadLine[__${iter.index}__]}"></td> 
-
-     <!--      <td><a th:href="@{/subjInfo/{id}(id=${s.id})}"
-                                              class="btn btn-primary">s
-                                        <i class="fas fa-user-times ml-2"></i>Узнать
-                                    </a></td>    -->    
-                                    
-                    
-                                                                                   
-       </tr> 
-     
-       
-   <div class="b-container">
-    Sample Text
-    <a href="javascript:PopUpShow()">Show popup</a>
-</div>
-<div class="b-popup" id="popup1">
-    <div class="b-popup-content">
-        Text in Popup
-    <a href="javascript:PopUpHide()">Hide popup</a>
-    </div>
-</div>
-       <!--   <td th:text="${s.dbFile.deadL}"></td>-->
-                    
-                         
-    
-      
-    <!--    <tr th:each="s : ${subjects}"> 
-       
-        <td th:text="${s.subjName}"></td>
-      
-        <td>
-                                   
-                                </td>
-        
-        <td>-->
-       
-        
-        
-				<!--  	<a href="${pageContext.request.contextPath }/product/delete/${product.id }" onclick="return confirm('Are you sure?')">Delete</a>-->
-				
-        
-      
-     
-         
-    </tbody>
-    
-     
-  </table>
-  
-  
-  
-  
-  <table style="width:30%">
-  <thead>
-  <tr>
-   <th>Всего сданных работ</th>
-   <br></br>  
-     <th>Ближайший дедлайн</th>  
-    
-  </tr>            
-  
-  </thead>
-  
-  <tbody>
-  <tr>
-           <td th:text="${countTasks}"></td>
-           <td th:text="${dateSoon}"></td>
-           </tr> 
-  
-  </tbody>
-  
-  
-  
-  </table>
-  
-  
-  </div>
-    </form>
-    
-    </div>
-    
-     <!--   <tr th:text="${studFiles.length}">
-      <td th:text="${studFiles[3]}"></td>
-      </tr>-->
-      
-
-
-
-
-
-</div>
-<br></br>
-
-
-
-<br></br>
 <div>
  <form th:action="@{/subject}" method="post">
              <p>Название: <input type = "text" name="subjName" /></p>
@@ -321,14 +161,6 @@ $.ajax({
 </ul>-->
 </div>
 <br></br>
-
- 
-
- 
-
-
-
-
 <div sec:authorize="hasRole('ADMIN')">
       <form th:action="@{/s_add}" method="POST">
   <p>Название: <input type = "text" align="center" name="subjName" /></p>
@@ -337,46 +169,13 @@ $.ajax({
 </form>   
  </div>
  
- 
-  
- <!--  
- 
- <div>List of subjects</div>
-<form method="post" action="filter">
-        <input type="text" name="filter"/>
-        <button type="submit">Find</button>
-    </form>-->
- 
- <!--    <div>Filter By Id</div> 
-<form method="post" action="filter_id">
-        <input type="text" name="filter"/>
-        <button type="submit">Find</button>
-    </form>    
-    
-       <div>Filter By NameOfFile</div> 
-<form method="post" action="fileName">
-        <input type="text" name="fileName"/>
-        <button type="submit">Find</button>
-    </form> 
-    
-     <div>List files</div> 
-    <form method="post" action="fileName">
-        <input type="text" name="fileName"/>
-        <button type="submit">Find</button>
-    </form> -->
-    
-    
-     
- 
- 
 <br></br>
                     
      <form th:action="@{/logout}" method="post">
             <input type="submit"  class="btn1" value="Выход"/>
         </form>
                     
- <!--  <button onclick="myFunction()">Try it</button>
-<script src="/js/main.js" ></script>-->
+
 
 </body>
 </html>
