@@ -4,7 +4,6 @@
 <head>
 <meta charset="utf-8" />
 <title>Edit Product</title>
-<h1>ergre</h1>
 </head>
 <body>
     <div align="center">
@@ -30,14 +29,14 @@
       
     </div>
     
-    <div sec:authorize="hasRole('USER')">
+  <!--    <div sec:authorize="hasRole('USER')">
     <div align="center">
      <form action="#" th:action="@{/uploadStudFile/{id}(id=${file.id})}" th:object="${file}" method="post" enctype="multipart/form-data"> 
           <input id="singleFileUploadInput" type="file" required="required" name="file" />
            <button type="submit" class="primary submit-btn">Загрузить условие задания</button>
            </form>
       </div>   
-      </div>  
+      </div>  -->
     
 </body>
 </html>

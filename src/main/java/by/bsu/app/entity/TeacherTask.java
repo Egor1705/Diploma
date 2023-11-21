@@ -4,25 +4,26 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import jakarta.persistence.Lob;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "files")
-public class DBFile implements Serializable {
+@Table(name = "tasks")
+public class TeacherTask  {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,10 +33,12 @@ public class DBFile implements Serializable {
 	@Column(name = "fileName")
 	private String fileName;
 	
+	
 	@Column(name = "fileType")
 	private String fileType;
-
+	
 	@Lob
+	@Column(name="data",length = 100000000)
 	private byte[] data;
 	
 	
@@ -45,30 +48,24 @@ public class DBFile implements Serializable {
 	@Column(name = "downloadURL")
 	private String downloadURL;
 
-
-
-
-
 	@ManyToOne(cascade = CascadeType.ALL)
-		@JoinColumn(name = "subject_id")
-		private Subj subject;
-	
-	@OneToMany(mappedBy = "dbFile",cascade = CascadeType.ALL)
-    private List<DBFileStudent> dbFileStudents;
+	@JoinColumn(name = "subj_id")
+	private Subject subject;
 	
 	
-	public DBFile() {
+	public TeacherTask() {
 
 	}
 
-	public DBFile(String fileName, String fileType, byte[] data,Date deadL,String downloadURL,Subj subject) {
+	public TeacherTask(String fileName, String fileType,byte[] data,Date deadL,String downloadURL) {
 	
 		this.fileName = fileName;
 		this.fileType = fileType;
-		this.data = data;
+	    this.data = data;
 		this.deadL=deadL;
 	    this.downloadURL = downloadURL;
-	    this.subject = subject;
+
+	   
 	}
 	
 
@@ -98,13 +95,6 @@ public class DBFile implements Serializable {
 		this.fileType = fileType;
 	}
 
-	public byte[] getData() {
-		return data;
-	}
-
-	public void setData(byte[] data) {
-		this.data = data;
-	}
 
 	public Date getDeadL() {
 		return deadL;
@@ -114,11 +104,11 @@ public class DBFile implements Serializable {
 		this.deadL = deadL;
 	}
 
-	public Subj getSubject() {
+	public Subject getSubject() {
 		return subject;
 	}
 
-	public void setSubject(Subj subject) {
+	public void setSubject(Subject subject) {
 		this.subject = subject;
 	}
 
@@ -130,13 +120,15 @@ public class DBFile implements Serializable {
 		this.downloadURL = downloadURL;
 	}
 
-	public List<DBFileStudent> getDbFileStudents() {
-		return dbFileStudents;
+	public byte[] getData() {
+		return data;
 	}
 
-	public void setDbFileStudents(List<DBFileStudent> dbFileStudents) {
-		this.dbFileStudents = dbFileStudents;
+	public void setData(byte[] data) {
+		this.data = data;
 	}
+
+
 
 	
 

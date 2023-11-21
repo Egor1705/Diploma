@@ -40,107 +40,35 @@
 <body>
  
  
- 
-<!--  <ul th:each="subject : ${subjects}"> 
-    <h1  th:text="${subject.subjName}" style="text-align:center;"></h1>
- </ul> -->
- 
- <!--  <h1 th:text="${page_title}"></h1>-->
    
-    
- <!--  <button onclick="myFunction()">Try it</button>-->
- <!--   <script src="/js/main.js" ></script>-->
+<!--  <div sec:authorize="hasRole('ADMIN')">-->
 
-
-<!--  <h3>List files</h3>
-<div>
-<form th:action="@{/flist}" method="GET">
-  <tbody>
-  <tr th:each="file : ${files}">
-      <td th:text="${file.fileName}"></td>
-      </tr>   
-  </tbody>
-   <button type="submit">show</button>
-   
-</form> -->
-
-
-
-
-<!--  <h2>Список работ</h2>
-<form th:action="@{/flist}" method="GET">
-<ul th:each="file : ${filesList}">
-    <h1  th:text="${file.fileName}"></h1>
-    </ul>
-    </form>
-  
-   <table cellspacing="0">
-   <tr>
-    <th>Название</th><th>Дедлайн</th><th>Просрочено</th><th>Загружено</th>
-   </tr>
-   <tr th:each="file : ${files}">   
-    <td th:text="${file.fileName}"></td><td th:text="${file.deadl}"></td><td>79</td><td>30</td>
-   </tr>
-  
-  
-</form> -->
- 
-  
-
-    
-<div sec:authorize="hasRole('ADMIN')">
-
-
-  <tr th:each="s : ${subject}">
-  <!--  <td th:text="${page_title}"> -->
-         <td th:text="${s.subjName}"></td>
+<table>
+    <tr th:each="s : ${subject}"> 
+         <!--  <td th:text="${s.subjName}"></td>-->
         <td><a th:href="@{/upload/{id}(id=${s.id})}"
                                               class="btn btn-primary">
                                         <i class="fas fa-user-times ml-2"></i>Установить лабу
                                     </a></td>
                                
-       </tr> 
+       </tr>
+          
 
 
-
+</table>
  
                   
  <br></br>                   
  </div>  
  
- <div sec:authorize="hasRole('ADMIN')"> 
- <!--  <h3 style="text-align:center;">Все файлы всех студентов</h3>
- 
- <form th:action="@{/s_u}" method="GET">  
-    <div class="table-responsive">          
-  <table class="table table-bordered" align = "center">
-    <thead>
-      <tr class="success">
-        
-        <th>Студент</th>
-        <th>Группа</th>
-        <th>Ссылка файла</th>
-      </tr>
-    </thead>
-    <tbody>
-    <tr th:each="r: ${res}">
-        <td th:text="${r.user.username}"></td>
-        <td th:text="${r.user.course}"></td>
-        <td th:text="${r.downloadURL}"></td>
-      </tr>
-         
-    </tbody>
-  </table>
-  </div>
-  <button type="submit" class="btn1">Показать</button>
-    </form> -->
- 
+<!--   <div sec:authorize="hasRole('ADMIN')"> -->
+
  
  
 
 <br></br>
 
-<h3 style="text-align:center;">Все файлы 2го курса 5ой группы</h3>
+<!--  <h3 style="text-align:center;">Все файлы 2го курса 5ой группы</h3>
 
 <form th:action="@{/s_u_2Course}" method="GET">
   <div class="table-responsive">          
@@ -160,7 +88,7 @@
      <td> <a th:href="${r.downloadURL}"class="btn btn-primary">
                                         Скачать</a></td> 
      
-     <!--  <td th:text="${r.user.?getUsername()}"></td> -->  
+      
       </tr>
   </tbody>
   </table>
@@ -187,12 +115,8 @@
    <td th:text="${r.user.course}"></td>
       <td> <a th:href="${r.downloadURL}"class="btn btn-danger">
                                        Скачать</a></td>
-     
- <!--       <td><a th:href="@{/uploadStud/{id}(id=${s.id})/{id_task}(id_task=${r.id_task})}"
-                                              class="btn btn-primary">
-                                        <i class="fas fa-user-times ml-2"></i>Загрузить задание
-                                    </a></td>-->
-     <!--  <td th:text="${r.user.?getUsername()}"></td> -->
+
+
          
        
       </tr>
@@ -203,25 +127,11 @@
  </div>
  
  
-<!--   <div sec:authorize="hasRole('USER')">                 
-    <form id="singleFileUploadForm" name="singleFileUploadForm" action="/uploadStudFile" method="post" enctype="multipart/form-data">
-        File to Upload  <input id="singleStudFileUploadInput" type="file" required="required" name="file" />
-     
-  
-    Номер задания          <input type="number" required="required" name="id_task"/> 
-   
-                        <button type="submit" class="primary submit-btn">Загрузить работу</button>
-                    </form>
-                    <div class="upload-response">
-                        <div id="singleStudFileUploadError"></div>
-                        <div id="singleStudFileUploadSuccess"></div>
-                    </div>                    
- 
-</div>-->
+
 
   <div sec:authorize="hasRole('USER')">
   <h3 style="text-align:center;">Все Лабораторные работы</h3>
-<!--  <form th:action="@{/f}" method="GET">  -->
+
     <div class="table-responsive">          
   <table class="table table-bordered">
     <thead>
@@ -244,24 +154,20 @@
                                               class="btn btn-primary">
                                         <i class="fas fa-user-times ml-2"></i>Загрузить задание
                                     </a></td>
-       <!--    <td><a th:href="@{/uploadStud/{id}/{id_task} (id=${file.id},id_task=${file.id_task})}"
-                                              class="btn btn-primary">
-                                        <i class="fas fa-user-times ml-2"></i>Загрузить задание
-                                    </a></td> -->
+   
       </tr>   
   </tbody>
   </table>
   </div>
- <!--   <button type="submit" class ="btn1">Показать</button>
-    </form>-->
+
 </div>
   
-  </div>                                  
+  </div>  -->                                
                                     
                                     
- <div sec:authorize="hasRole('ADMIN')">
+
 <h3 style="text-align:center;">Все Лабораторные работы</h3>
-<!--  <form th:action="@{/f}" method="GET">  -->
+
     <div class="table-responsive">          
   <table class="table table-bordered">
     <thead>
@@ -273,7 +179,7 @@
       </tr>
     </thead>
    <tbody>
-  <tr th:each="file : ${files}">
+   <tr th:each="file : ${files}">
       <td th:text="${file.fileName}"></td>
         <td> <a th:href="${file.downloadURL}"class="btn btn-primary">
                                         Скачать</a></td>
@@ -282,8 +188,7 @@
   </tbody>
   </table>
   </div>
-  <!--  <button type="submit" class ="btn1">Показать</button>
-    </form>-->
+ 
 </div>
 <br></br>
 <a th:href="@{/index}">Назад</a>
